@@ -1,0 +1,40 @@
+.title {
+    visibility: hidden;
+}
+
+h1:hover .title,
+h2:hover .title,
+h3:hover .title,
+h4:hover .title,
+h5:hover .title,
+h6:hover .title {
+    visibility: visible;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+
+    background-color: var(--bs-gray-200)
+}
+
+pre {
+    background-color: var(--bs-gray-300);
+    border-radius: 0.45%;
+}
+
+code.language-bash {
+    color: black;
+
+}
