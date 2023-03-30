@@ -30,15 +30,32 @@ class MarkdownRenderTest extends TestCase
         }
     }
 
+    public function test_javascript(): void
+    {
+        $r = new CommonMarkRender();
+        $script_tag = '<script>
+alert("Hello JavaScript!");
+</script>';
+        $html = $r->render($script_tag);
+
+        $this->assertFalse(str_contains($html, '<script>'));
+    }
+
     public function test_table(): void
     {
 
-        $markdownTable = '
+        $normalCenterRightTable = '
 th | th(center) | th(right)
 ---|:----------:|----------:
 td | td         | td';
 
-        $expectedHtml = '<table>
+
+        $leftCenterRightTable = '
+ th(left) | th(center) | th(right)
+:---|:----------:|----------:
+ td | td         | td';
+
+        $expectedNormalCenterRight = '<table>
 <thead>
 <tr>
 <th>th</th>
@@ -56,8 +73,38 @@ td | td         | td';
 </table>
 ';
 
+        $expectedLeftCenterRight = '<table>
+<thead>
+<tr>
+<th align="left">th(left)</th>
+<th align="center">th(center)</th>
+<th align="right">th(right)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">td</td>
+<td align="center">td</td>
+<td align="right">td</td>
+</tr>
+</tbody>
+</table>
+';
+        $markdownTables = [
+            $normalCenterRightTable,
+            $leftCenterRightTable,
+        ];
+        $expectedHtmlTables = [
+            $expectedNormalCenterRight,
+            $expectedLeftCenterRight
+        ];
+
         $r = new CommonMarkRender();
-        $html = $r->render($markdownTable);
-        $this->assertEquals($expectedHtml, $html);
+
+        for ($i = 0; $i < 2; $i++) {
+
+            $html = $r->render($markdownTables[$i]);
+            $this->assertEquals($expectedHtmlTables[$i], $html);
+        }
     }
 }
